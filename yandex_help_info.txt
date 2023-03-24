@@ -1,0 +1,7 @@
+https://yandex.ru/dev/direct/doc/start/token.html
+https://yandex.ru/dev/id/doc/ru/codes/code-url#code
+https://oauth.yandex.ru/
+https://yandex.ru/dev/disk/rest/
+https://yadisk.readthedocs.io/ru/latest/docs.html
+
+https://dzen.ru/a/ZABbQe_rrzxrLM4C --- настройка прав доступа
