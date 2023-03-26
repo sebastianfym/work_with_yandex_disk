@@ -3,6 +3,8 @@ import posixpath
 import sys
 import time
 import yadisk
+from django.http import HttpResponse
+
 from config import *
 
 y = yadisk.YaDisk(token="y0_AgAAAABRtM0fAAlHGQAAAADejyJ6XYGbFWKKQLauAt4KNqRGPyyY_Co")
@@ -94,11 +96,59 @@ def mass_unloading(from_dir, to_directory):
 
 
 # y.upload("название_файла.формат", "куда_загружать/название_файла.формат")
-# y.download("откуда_выгружть/название_файла.формат", "куда_выгружать/название_файла.формат"))
+# y.download("откуда_выгружть/название_файла.формат", "куда_выгружать/название_файла.формат")
 # y.mkdir("/название_директории")
 # y.remove("/откуда_удалять/название_файла.формат", permanently=True)
-
+#
 # y.upload("pictures/горшок.jpg", "/test-dir/горшок.jpg")
 # y.remove("/test-dir/горшок.jpg", permanently=True)
 # cleaning_trash(y)
 
+
+#
+# directory = os.fsencode('images')
+# path_to_upload = 'test-dir'
+# for file in os.listdir(directory):
+#      filename = os.fsdecode(file)
+#      if filename.endswith(".jpg") or filename.endswith(".py"):
+#          print(filename.split('.'), 'KAC')
+#          # name = filename.split('.')[0]
+#          y.upload(f"images/{filename}", f"{path_to_upload}/{filename}")
+
+
+# for item in y.listdir(f'/test-dir/'):
+#     print(item['name'])
+#     path_to_dir_from_download = 'test-dir'
+#     # y.download(f"test-dir/{item['name']}", f"download_dir/{item['name']}")
+#     y.download(f"{path_to_dir_from_download}/{item['name']}", f"download_dir/{item['name']}")
+
+# directory = os.fsencode('images')
+# path_to_upload = 'test-dir'
+# for file in os.listdir(directory):
+#     filename = os.fsdecode(file)
+#     if filename.endswith(".jpg") or filename.endswith(".py"):
+#         print(filename.split('.'), 'KAC')
+#         # name = filename.split('.')[0]
+#         y.upload(f"{directory}/{filename}", f"{path_to_upload}/{filename}")
+
+
+#Todo это вьюхи для джанго. так же нужно создать папки images и download_dir
+
+def upload_y(request):
+    if request.method == "GET":
+        y = yadisk.YaDisk(token="y0_AgAAAABRtM0fAAlHGQAAAADejyJ6XYGbFWKKQLauAt4KNqRGPyyY_Co")
+        path_to_upload = 'test-dir'
+        for file in os.listdir('work_with_yandex_disk/images'): #work_with_yandex_disk/images'):#os.listdir(f'/{os.path.abspath(directory)}/'):
+            filename = os.fsdecode(file)
+            if filename.endswith(".jpg"):
+                y.upload(f"work_with_yandex_disk/images/{filename}", f"{path_to_upload}/{filename}")
+        return HttpResponse(200)
+
+
+def download_y(request):
+    if request.method == "GET":
+        y = yadisk.YaDisk(token="y0_AgAAAABRtM0fAAlHGQAAAADejyJ6XYGbFWKKQLauAt4KNqRGPyyY_Co")
+        path_to_dir_from_download = 'test-dir'
+        for item in y.listdir(f'/{path_to_dir_from_download}/'):
+            y.download(f"{path_to_dir_from_download}/{item['name']}", f"work_with_yandex_disk/download_dir/{item['name']}")
+        return HttpResponse(200)
